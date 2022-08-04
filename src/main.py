@@ -2,10 +2,9 @@ from extractors import museoExtractor, urlExtract
 import pandas as pd
 from constans import BASE_FILE
 from config import (museos,cines,bibliotecas)
-from loaders import(cineinsightsloader, sizeByCategoryLoader, sizeBySourceLoader, sizeByCatProvLoader)
+from loaders import(rawdata ,cineinsightsloader, rawdata, sizeByCategoryLoader, sizeBySourceLoader, sizeByCatProvLoader)
 from logger_base import log
 import click
-from script import crear_tablas_sql
 
 logging = log.getLogger()
 extractors_dict = {
@@ -70,6 +69,7 @@ def ejecutar_pipeline(date: str) -> None:
 
     # Load
     log.info('Cargando')
+    rawdata().cargar_tabla(merge_path)
     cineinsightsloader().cargar_tabla(file_paths['cines'])
     sizeByCategoryLoader().cargar_tabla(merge_path)
     sizeBySourceLoader().cargar_tabla(file_paths)
